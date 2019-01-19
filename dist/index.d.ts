@@ -28,6 +28,17 @@ export interface TwitchWindow {
         ext: {
             onContext: any;
             onAuthorized: any;
+            configuration: {
+                onChanged: any;
+                broadcaster: {
+                    version: string;
+                    content: string;
+                };
+                global: {
+                    version: string;
+                    content: string;
+                };
+            };
             bits: {
                 useBits: (sku: string) => void;
                 onTransactionCancelled: any;
