@@ -38,6 +38,7 @@ export interface TwitchWindow {
                     version: string;
                     content: string;
                 };
+                set: (segment: string, version: string, content: string) => void;
             };
             bits: {
                 useBits: (sku: string) => void;
