@@ -18,6 +18,25 @@ export interface TwitchProduct {
 	broadcast: boolean;
 }
 
+export interface TransactionReceipt {
+	topic: string;
+	exp: number; // unix timestamp
+	data: {
+		transactionId: string;
+		time: string; // iso
+		userId: string;
+		product: {
+			domainId: string;
+			sku: string;
+			displayName: string;
+			cost: {
+				amount: number;
+				type: string; // bits
+			}
+		},
+	},
+}
+
 export interface TwitchTransaction {
 	product: TwitchProduct;
 	transactionId: string;
@@ -30,30 +49,41 @@ export interface TwitchTransaction {
 export interface TwitchWindow {
 	Twitch: {
 		ext: {
-			onContext: any;
-			onAuthorized: any;
-
-			configuration: {
-				onChanged: any;
-
-				broadcaster: {
-					version: string;
-					content: string;
-				};
-
-				global: {
-					version: string;
-					content: string;
-				}
-
-				set: (segment: string, version: string, content: string) => void;
+			actions: {
+				requestIdShare(): void;
+				followChannel(): void;
+				subscribeToChannel(): void;
+				onFollow(callback: any): void;
+				onSubscribe(callback: any): void;
 			};
 
 			bits: {
-				useBits: (sku: string) => void;
-				onTransactionCancelled: any;
-				onTransactionComplete: any;
+				getProducts(): Promise<any>;
+				onTransactionCancelled(callback: any);
+				onTransactionComplete(callback: (transaction: TwitchTransaction) => void);
+				setUseLoopback(state: boolean): void;
+				showBitsBalance(): void;
+				useBits(sku: string): void;
 			};
+
+			configuration: {
+				broadcaster?: {
+					content: string;
+					version: string;
+				};
+
+				global?: {
+					content: string;
+					version: string;
+				};
+
+				onChanged(callback: () => void): void;
+
+				set(segment: string, version: string, content: string): void;
+			};
+
+			onContext(callback: (context: any) => void): void;
+			onAuthorized(callback: (auth: TwitchAuthorization) => void): void;
 		};
 	};
 }
