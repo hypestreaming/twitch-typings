@@ -82,7 +82,7 @@ export interface TwitchWindow {
 				set(segment: string, version: string, content: string): void;
 			};
 
-			onContext(callback: (context: any) => void): void;
+			onContext(callback: (context: TwitchContext) => void): void;
 			onAuthorized(callback: (auth: TwitchAuthorization) => void): void;
 		};
 	};
@@ -92,4 +92,5 @@ export interface TwitchContext {
 	videoResolution: string;
 	bitrate: number;
 	bufferSize: number;
+	theme: string;
 }
