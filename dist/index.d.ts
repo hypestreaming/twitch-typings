@@ -71,6 +71,7 @@ export interface TwitchWindow {
                 onChanged(callback: () => void): void;
                 set(segment: string, version: string, content: string): void;
             };
+            listen(target: string, callback: (target: string, contentType: string, message: string) => void): void;
             onContext(callback: (context: TwitchContext) => void): void;
             onAuthorized(callback: (auth: TwitchAuthorization) => void): void;
         };
